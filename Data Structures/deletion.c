@@ -75,6 +75,8 @@ void deleteAtEnd()
     prev->next = NULL;
     free(temp);
 }
+
+void
 int main()
 {
 	int n;
