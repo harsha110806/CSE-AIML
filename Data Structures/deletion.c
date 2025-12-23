@@ -49,6 +49,7 @@ void deleteAtBeginning() {
     head = head->next;
     printf("Deleted %d from beginning\n", temp->info);
     free(temp);
+    display();
 }
 
 void deleteAtEnd() 
@@ -74,6 +75,7 @@ void deleteAtEnd()
     printf("Deleted %d from end\n", temp->info);
     prev->next = NULL;
     free(temp);
+    display();
 }
 
 void

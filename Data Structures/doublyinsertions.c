@@ -171,19 +171,20 @@ void deleteatend() {
     free(temp);
 }
 
-void deletebefore(int key) {
-    if (head == NULL || head->next == NULL) {
-        printf("Nothing is available to delete.\n");
+void deleteBefore(int key) {
+    if (head == NULL) {
+        printf("List is empty.\n");
+        return;
+    }
+
+    if (head->info == key) {
+        printf("No node exists before the node with key %d.\n", key);
         return;
     }
 
     struct node *temp = head;
 
-    if (temp->info == key) {
-        printf("No node exists before the node with key %d.\n", key);
-        return;
-    }
-
+    // Traverse to find the node with given key
     while (temp != NULL && temp->info != key) {
         temp = temp->next;
     }
@@ -208,14 +209,16 @@ void deletebefore(int key) {
     }
 }
 
+
 void deleteafter(int key) {
-    if (head == NULL || head->next == NULL) {
-        printf("Nothing is available to delete.\n");
+    if (head == NULL) {
+        printf("List is empty.\n");
         return;
     }
 
     struct node *temp = head;
 
+    // Find the key
     while (temp != NULL && temp->info != key) {
         temp = temp->next;
     }
@@ -233,16 +236,16 @@ void deleteafter(int key) {
     struct node *del = temp->next;
     int val = del->info;
 
+    // Reconnect links
+    temp->next = del->next;
     if (del->next != NULL) {
-        temp->next = del->next;
         del->next->prev = temp;
-    } else {
-        temp->next = NULL;
     }
 
     free(del);
     printf("Node after %d (value: %d) deleted.\n", key, val);
 }
+
 
 int main() {
     int choice, n, data, key;
