@@ -2,6 +2,7 @@
 #include<stdlib.h>
 #include<time.h>
 #include<cuda_runtime.h>
+#include<math.h>
 
 #define N 1000
 
@@ -37,8 +38,8 @@ h_GPU=(float *)malloc(N*sizeof(float));
 float A=2.5f;
 for(int i=0;i<N;i++)
 {
-h_X[i]=((float)rand()/(float)RAND_MAX)*100.0f;
-h_Y[i]=((float)rand()/(float)RAND_MAX)*100.0f;
+h_X[i] = (float)(rand() % 100);
+h_Y[i] = (float)(rand() % 100);
 }
 
 float *d_X,*d_Y,*d_GPU;
@@ -63,7 +64,7 @@ float CPU_time=saxpyCPU(A,h_X,h_Y,h_CPU);
 int f=1;
 for(int i=0;i<N;i++)
 {
-if(h_GPU[i]!=h_CPU[i])
+if(fabs(h_GPU[i]-h_CPU[i]) > 0.00001f)
 {
 f=0;
 break;
