@@ -1,0 +1,134 @@
+#include<stdio.h>
+#include<string.h>
+#define MAX 50
+
+char undo[MAX][50];
+char redo[MAX][50];
+char text[MAX][50];
+
+int uTop=-1;
+int rTop=-1;
+int tTop=-1;
+
+void EnterText(char input[])
+{
+char *word;
+word=strtok(input," ");
+
+while(word!=NULL)  
+{  
+	if(uTop==MAX-1)  
+	{  
+		printf("Stack is full.\n");  
+		break;  
+	}  
+	  
+	strcpy(undo[++uTop],word);  
+	strcpy(text[++tTop],word);  
+	  
+	word=strtok(NULL," ");  
+}  
+  
+rTop=-1;  
+printf("Text entered successfully.\n");
+
+}
+
+void Undo()
+{
+if(uTop==-1)
+{
+printf("Nothing to undo.\n");
+return;
+}
+
+strcpy(redo[++rTop],undo[uTop]);  
+  
+printf("Undo: %s",undo[uTop]);  
+  
+uTop--;  
+tTop--;
+
+}
+
+void Redo()
+{
+if(rTop==-1)
+{
+printf("Nothing to redo.\n");
+return;
+}
+
+strcpy(undo[++uTop],redo[rTop]);  
+strcpy(text[++tTop],redo[rTop]);  
+  
+printf("Redo: %s",redo[rTop]);  
+  
+rTop--;
+
+}
+
+void display()
+{
+int i;
+printf("Undo Stack: \n");
+for(i=uTop;i>=0;i--)
+{
+printf("%s ",undo[i]);
+}
+
+printf("\nRedo Stack: \n");  
+for(i=rTop;i>=0;i--)  
+{  
+	printf("%s ",redo[i]);  
+}  
+  
+printf("\nText Stack: \n");  
+for(i=tTop;i>=0;i--)  
+{  
+	printf("%s ",text[i]);  
+}
+
+}
+
+int main()
+{
+int choice;
+char input[500];
+
+while(1)  
+{  
+	printf("\n---Text editor---\n");  
+	printf("1. Enter text\n");  
+	printf("2. Undo\n");  
+	printf("3. Redo\n");  
+	printf("4. Display\n");  
+	printf("5. Exit\n");  
+	  
+	printf("Enter your choice: ");  
+	scanf("%d",&choice);  
+	  
+	switch(choice)  
+	{  
+		case 1:  
+			printf("Enter text:");  
+			scanf(" %499[^\n]",input);  
+			EnterText(input);  
+			break;  
+		case 2:  
+			Undo();  
+			break;  
+		case 3:  
+			Redo();  
+			break;  
+		case 4:  
+			display();  
+			break;  
+		case 5:  
+			return 0;  
+		default:  
+			printf("Invalid Choice! try again.\n");  
+	}  
+}
+
+}
